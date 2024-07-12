@@ -12,4 +12,10 @@ const embeddings: any = new OllamaEmbeddings({
   model: 'llama3',
 });
 
+const vectorStore = QdrantVectorStore.fromExistingCollection(embeddings, {
+  url: process.env.NEXT_PUBLIC_QDRANT_API_KEY,
+  collectionName: 'a_test_collection',
+  client: dbClient,
+});
+
 export { embeddings, dbClient };
