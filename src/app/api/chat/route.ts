@@ -16,14 +16,19 @@ export async function POST(req: any) {
     // Fetching contexts related to questions asked from db
 
     // Main prompt
-    const prompt = `
-      Brief about the pdf: ${'userContext'}
-      Please provide answers to the following questions using the pdf context which is mentioned below and make sure to give response in JSON format only. There can be either one or more questions, so make sure to start the json response with Ans1 and then Ans2(if more than one question) & so on.
-      ${'questionString'}
-      -----------------------
-      pdf context:-  ${'contexts'}
-
-      `;
+    const prompt = `Use the following context as your learned knowledge, inside <context></context> XML tags.
+		<context>
+		  [context]
+		</context>
+		
+		When answer to user:
+		- If you don't know, just say that you don't know.
+		- If you don't know when you are not sure, ask for clarification.
+		Avoid mentioning that you obtained the information from the context.
+		And answer according to the language of the user's question.
+				
+		Given the context information, answer the query.
+		Query: [query]`;
   } catch (error) {
     console.log('ERROR: ', error);
     return Response.json({ message: 'Error occurred' }, { status: 500 });
